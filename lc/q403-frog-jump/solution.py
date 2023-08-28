@@ -18,13 +18,12 @@ class Solution:
         # loop start from idx 1
         for i in range(1, len(stones)):
             stone_val = stones[i]
-            if len(dp[stone_val]):
-                for step_len in dp[stone_val]:
-                    next_stone = stone_val + step_len
-                    if next_stone in dp:
-                        dp[next_stone].add(step_len)
-                        dp[next_stone].add(step_len + 1)
-                        if step_len > 1:
-                            dp[next_stone].add(step_len - 1)
+            for step_len in dp[stone_val]:
+                next_stone = stone_val + step_len
+                if next_stone in dp:
+                    dp[next_stone].add(step_len)
+                    dp[next_stone].add(step_len + 1)
+                    if step_len > 1:
+                        dp[next_stone].add(step_len - 1)
 
         return len(dp[stones[i]]) > 0
