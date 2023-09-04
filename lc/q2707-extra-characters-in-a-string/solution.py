@@ -33,7 +33,7 @@ class Solution:
 
 # - convert dictionary into set for a faster `in` operation
 # - dp[start]: minimum extra chars for subarray s[start:]
-# - buttom-up-(left-to-right)-built dp
+# - buttom-up-(right-to-left)-built dp
 # -  to fill up a new dp[start]
 # -    1. assign the value to the worst dp[start] = 1 + dp[start + 1]
 # -    2. update dp[start] for a better result
