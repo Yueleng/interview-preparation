@@ -37,3 +37,10 @@ class Solution:
             res += int(num, 2)
 
         return res
+
+
+# greedy:
+#   - make sure the row has to be the 1 in the first digit
+#   - flip row first and then flip column
+# note how the column function is being implemented
+# how to quickly convert binary number to decimal? int(num, 2)

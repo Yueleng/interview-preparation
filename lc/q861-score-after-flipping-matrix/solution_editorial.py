@@ -8,3 +8,8 @@ class Solution:
                 col += A[r][c] ^ A[r][0]
             ans += max(col, R - col) * 2 ** (C - 1 - c)
         return ans
+
+
+# bitwise operation
+# ^: Bitwise XOR Operator
+# algorithm: scan column from left to right
