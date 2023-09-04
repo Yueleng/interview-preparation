@@ -57,3 +57,17 @@ class Solution:
     # remain 0
     # count 7 (1 + 2 + 3 + 1)
     # update map to defaultdict(<class 'int'>, {0: 2, 4: 4, 2: 1})
+
+
+# Subarray sums divisible by k
+# arr = [a_0, a_1, ..., a_n], for k
+# we want all subarrays a[i:j] s.t. sum(a[i:j]) % K = 0
+# Method:
+# Calculate prefix sums for the array:
+# F = [0, a1, a1+a2, a1+a2+a3, ...]
+# so if we have F[i], then we need to find an F[j],
+# where j < i, s.t.
+#  1. (F[i] - F[j]) % K = 0
+#  2. F[i] % k = F[j] % k
+# F[i] calculate as you go through the array
+# F[j] stored in hashmap
