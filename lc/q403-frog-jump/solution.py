@@ -27,3 +27,7 @@ class Solution:
                         dp[next_stone].add(step_len - 1)
 
         return len(dp[stones[i]]) > 0
+
+
+# algorithm: store all possible steps in dp, to avoid repetition, we use set here
+# scan through left to right, and never go back (buttom up dp)
