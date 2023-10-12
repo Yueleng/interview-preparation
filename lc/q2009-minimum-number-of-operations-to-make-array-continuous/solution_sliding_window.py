@@ -10,7 +10,7 @@ class Solution:
         kept_count = ii = 0
         for i, x in enumerate(nums):
             # ii base
-            if x - nums[ii] >= n:
+            if x - nums[ii] > n - 1:
                 ii += 1
             kept_count = max(kept_count, i - ii + 1)
         return n - kept_count
