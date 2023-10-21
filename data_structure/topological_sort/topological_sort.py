@@ -47,3 +47,20 @@ def topological_sort(digraph):
         return topological_ordering  # got them all
     else:
         raise Exception("Graph has a cycle! No topological ordering exists.")
+
+
+# Time and Space Complexity
+# Determine the indegree for each node. This is O(M) time (where M is the number of edges),
+# since this involves looking at each directed edge in the graph once.
+# Find nodes with no incoming edges.
+# This is a simple loop through all the nodes with some number of constant-time appends.
+# O(N) time (where N is the number of nodes).
+#
+# Add nodes until we run out of nodes with no incoming edges. This loop could run once for every node—
+# O(N) times. In the body, we:
+# Do two constant-time operations on a list to add a node to the topological ordering.
+# Decrement the indegree for each neighbor of the node we added. Over the entire algorithm, we'll end up doing exactly one decrement for each edge, making this step
+# O(M) time overall.
+
+# All together the time complexity is O(M+N)
+# Space complexity: O(N)
