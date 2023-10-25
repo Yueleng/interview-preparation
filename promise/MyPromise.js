@@ -32,6 +32,7 @@ function runMicroTask(callback) {
  * determine if an object is Promise
  */
 function isPromise(obj) {
+  // thenable object
   return !!(obj && typeof obj === "object" && typeof obj.then === "function");
 }
 
@@ -42,12 +43,17 @@ class MyPromise {
    * execute synchronously
    */
   constructor(executor) {
+    // initial state: PENDING
     this._state = PENDING;
+    // initial value: undefined
     this._value = undefined;
+    // queue to process func, initialised as empty array
     this._handlers = [];
     try {
+      // run executor func immediately
       executor(this._resolve.bind(this), this._reject.bind(this));
     } catch (error) {
+      // if execute throws error, reject
       this._reject(error);
       console.error(error);
     }
@@ -105,6 +111,7 @@ class MyPromise {
     });
   }
 
+  // then returned a PROMISE
   then(onFulfilled, onRejected) {
     return new MyPromise((resolve, reject) => {
       this._pushHandlers(onFulfilled, FULFILLED, resolve, reject);
@@ -131,10 +138,12 @@ class MyPromise {
   }
 
   _changeState(newState, value) {
+    // if state has been set before, cannot change this state anymore
     if (this._state !== PENDING) {
       return;
     }
 
+    // this enables the chain functionality of Promise
     if (isPromise(value)) {
       value.then(this._resolve.bind(this), this._reject.bind(this));
       return;
@@ -142,17 +151,27 @@ class MyPromise {
 
     this._state = newState;
     this._value = value;
+    // run handlers left
     this._runHandlers();
   }
 
+  // resolve will set state to FULFILLED and set value data
   _resolve(data) {
     this._changeState(FULFILLED, data);
   }
 
+  // reject will set state to REJECTED and set reason
   _reject(reason) {
     this._changeState(REJECTED, reason);
   }
 
+  /**
+   * 返回一个已完成的Promise
+   * 特殊情况：
+   * 1. 传递的data本身就是ES6的Promise对象
+   * 2. 传递的data是PromiseLike（Promise A+），返回新的Promise，状态和其保持一致即可
+   * @param {any} data
+   */
   static resolve(data) {
     if (data instanceof MyPromise) {
       return data;
@@ -252,6 +271,14 @@ class MyPromise {
 
 const promise = new MyPromise((resolve, reject) => {
   resolve(123);
-});
+})
+  .then((data) => {
+    console.log("data: ", data);
+    // return data + 1;
+    return new MyPromise((resolve, reject) => {
+      resolve(data + 1);
+    });
+  })
+  .then((_data) => console.log("second data: ", _data));
 
 console.log(promise);
