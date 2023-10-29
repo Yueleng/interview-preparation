@@ -25,8 +25,6 @@ class Solution:
         while q:
             for _ in range(len(q)):
                 r, c, dist = q.popleft()
-                if r < 0 or r >= nr or c < 0 or c >= nc:
-                    continue
                 if (r, c) in visited:
                     continue
                 visited.add((r, c))
@@ -34,9 +32,10 @@ class Solution:
 
                 for r_inc, c_inc in directions:
                     r_next, c_next = r + r_inc, c + c_inc
-                    q.append((r_next, c_next, dist + 1))
+                    if r_next >= 0 and r_next < nr and c_next >= 0 and c_next < nc:
+                        q.append((r_next, c_next, dist + 1))
 
-        output = float("inf")
+        _min = float("inf")
         visited = set()
         heap = [(-dist_to_thief[0][0], 0, 0)]
 
@@ -46,18 +45,19 @@ class Solution:
             d, r, c = heapq.heappop(heap)
             if (r, c) in visited:
                 continue
-            output = min(output, -1 * d)
+            _min = min(_min, -1 * d)
             # if popped up pos is the right-bottom corner, which means we have get the result
             if r == nr - 1 and c == nc - 1:
-                return output
+                return _min
 
             visited.add((r, c))
             # append heap with neighbors of current pos
             for r_inc, c_inc in directions:
                 r_next, c_next = r + r_inc, c + c_inc
-                if r_next < 0 or r_next >= nr or c_next < 0 or c_next >= nc:
-                    continue
-                heapq.heappush(heap, (-dist_to_thief[r_next][c_next], r_next, c_next))
+                if r_next >= 0 and r_next < nr and c_next >= 0 or c_next < nc:
+                    heapq.heappush(
+                        heap, (-dist_to_thief[r_next][c_next], r_next, c_next)
+                    )
 
 
 # from ast import List
