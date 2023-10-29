@@ -54,7 +54,7 @@ class Solution:
             # append heap with neighbors of current pos
             for r_inc, c_inc in directions:
                 r_next, c_next = r + r_inc, c + c_inc
-                if r_next >= 0 and r_next < nr and c_next >= 0 or c_next < nc:
+                if r_next >= 0 and r_next < nr and c_next >= 0 and c_next < nc:
                     heapq.heappush(
                         heap, (-dist_to_thief[r_next][c_next], r_next, c_next)
                     )
