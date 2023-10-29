@@ -1,3 +1,4 @@
+from ast import List
 from collections import defaultdict, deque
 import heapq
 
@@ -8,12 +9,11 @@ class Solution:
         nr, nc = len(grid), len(grid[0])
         # nxt moves four directions
         directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-        # represent with dict for ??
-        adj_list = defaultdict(list)
         # store the dist of each pos to (nearest) thieves
-        board = [[float("inf")] * nc for _ in range(nr)]
+        # thus we can expect the dist_to_thief(thief pos) == 0
+        dist_to_thief = [[float("inf")] * nc for _ in range(nr)]
         q = deque([])
-        # append all thiefs pos(s) into deque q
+        # append all thiefs pos(s) into deque q first as starting deque
         for r in range(nr):
             for c in range(nc):
                 if grid[r][c] == 1:
@@ -21,7 +21,7 @@ class Solution:
 
         # record visited pos(s)
         visited = set()
-        # tag every other pos(s) with dist, and store the dist (to nearest thieves) with bfs into board (2d array)
+        # tag every other pos(s) with dist, and store the dist (to nearest thieves) with bfs into dist_to_thief (2d array)
         while q:
             for _ in range(len(q)):
                 r, c, dist = q.popleft()
@@ -30,7 +30,7 @@ class Solution:
                 if (r, c) in visited:
                     continue
                 visited.add((r, c))
-                board[r][c] = min(board[r][c], dist)
+                dist_to_thief[r][c] = min(dist_to_thief[r][c], dist)
 
                 for r_inc, c_inc in directions:
                     r_next, c_next = r + r_inc, c + c_inc
@@ -38,22 +38,26 @@ class Solution:
 
         output = float("inf")
         visited = set()
-        heap = [(-board[0][0], 0, 0)]
+        heap = [(-dist_to_thief[0][0], 0, 0)]
 
         while heap:
+            # pop up heap to get the highest dist
+            # (there are some tricks, to negate on purpose is to get the smallest value, but largest in abs value)
             d, r, c = heapq.heappop(heap)
             if (r, c) in visited:
                 continue
             output = min(output, -1 * d)
+            # if popped up pos is the right-bottom corner, which means we have get the result
             if r == nr - 1 and c == nc - 1:
                 return output
 
             visited.add((r, c))
+            # append heap with neighbors of current pos
             for r_inc, c_inc in directions:
                 r_next, c_next = r + r_inc, c + c_inc
                 if r_next < 0 or r_next >= nr or c_next < 0 or c_next >= nc:
                     continue
-                heapq.heappush(heap, (-board[r_next][c_next], r_next, c_next))
+                heapq.heappush(heap, (-dist_to_thief[r_next][c_next], r_next, c_next))
 
 
 # from ast import List
