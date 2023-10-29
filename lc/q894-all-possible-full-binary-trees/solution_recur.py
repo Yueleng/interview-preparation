@@ -51,7 +51,9 @@ class Solution:
 
             for i in range(1, _n, 2):
                 j = _n - i - 1
+                # all possibilities of size i
                 left = possibleFBTRecur(i)
+                # all possibilities of size j
                 right = possibleFBTRecur(j)
                 for l, r in itertools.product(left, right):
                     root = TreeNode(0, l, r)

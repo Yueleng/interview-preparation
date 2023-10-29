@@ -25,9 +25,10 @@ class Solution:
         # when there is one node, only one tree is available
         trees_all[1] = [TreeNode(0)]
         for n in range(3, _n + 1, 2):
-            for k in range(1, n, 2):
+            for k in range(1, _n, 2):
                 # trees with k nodes on the left
                 # trees with n - k - 1 nodes on the right
+                # trees with (n - 1) nodes in total, since we need to add a root count as 1
                 # consider all potential pairs
                 for tree1, tree2 in itertools.product(
                     trees_all[k], trees_all[n - k - 1]
@@ -43,4 +44,4 @@ class Solution:
 
 if __name__ == "__main__":
     solution = Solution()
-    solution.allPossibleFBT(7)
+    print(solution.allPossibleFBT(7))
