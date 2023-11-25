@@ -21,6 +21,8 @@ class Solution:
         # consecutive difference in arithmetic progression
         diff = int((maxArr - minArr) / (len(arr) - 1))
 
+        # Q: is this possible to compare two arrays in this way?
+        # A: Yes
         if diff == 0:
             if arr != [arr[0]] * len(arr):
                 return False
