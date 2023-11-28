@@ -1,3 +1,7 @@
+from ast import List
+import math
+
+
 class Solution:
     def maxRunTime(self, n: int, batteries: List[int]) -> int:
         def helper(val):
