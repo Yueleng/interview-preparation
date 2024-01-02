@@ -5,7 +5,7 @@ class Solution:
         if n < d:
             return -1
 
-        dp = [[None] * (d + 1) for _ in range(n + 1)]
+        dp = [[float("inf")] * (d + 1) for _ in range(n + 1)]
 
         dp[0][0] = 0
 
@@ -18,9 +18,9 @@ class Solution:
                 # since we have to spare the rest of k - 1 jobs for k - 1 days
                 for j in range(i, k - 1, -1):
                     mx = max(mx, jobDifficulty[j - 1])
-                    dp[i][k] = min(dp[i][k] or float("inf"), dp[j - 1][k - 1] + mx)
+                    dp[i][k] = min(dp[i][k], dp[j - 1][k - 1] + mx)
 
-        return dp[n][d] if dp[n][d] != None else -1
+        return dp[n][d]
 
 
 # Given an array, minimze the maximum sum of a subarray of size k
