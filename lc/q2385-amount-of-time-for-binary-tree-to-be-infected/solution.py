@@ -1,3 +1,4 @@
+# BFS
 # Definition for a binary tree node.
 from collections import defaultdict, deque
 from typing import Optional
@@ -12,6 +13,8 @@ class TreeNode:
 
 class Solution:
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
+        # use dfs to build the graph
+        # graph: {node: [neighbors]} <- adjacency list
         def dfs(node):
             if node is None:
                 return
@@ -33,6 +36,7 @@ class Solution:
 
         queue = deque([start])
         time = -1
+        # bfs to find the total time
         while queue:
             time += 1
             for _ in range(len(queue)):
