@@ -25,6 +25,6 @@ def solution(stationsA, stationsB, stationsC, origin, destination):
         return "BC"
 
     if A == 1 and C == 1:
-        return "AC"
+        return "ABC"
 
     return "NO"
