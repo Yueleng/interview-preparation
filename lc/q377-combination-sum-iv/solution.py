@@ -20,6 +20,4 @@ class Solution:
         for i in range(target + 1):
             dp[i] = get(i)
 
-        print(dp)
-
         return dp[target]
